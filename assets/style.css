@@ -1,0 +1,62 @@
+/* ===========================
+Dashboard Theme
+=========================== */
+
+.stApp{
+
+    background:#F7F8FA;
+
+}
+
+/* Main Container */
+
+.block-container{
+
+    padding-top:1rem;
+
+    padding-left:2rem;
+
+    padding-right:2rem;
+
+}
+
+/* Sidebar */
+
+section[data-testid="stSidebar"]{
+
+    background:white;
+
+    border-right:1px solid #EAEAEA;
+
+}
+
+/* Metric */
+
+div[data-testid="metric-container"]{
+
+    background:white;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    box-shadow:0px 2px 8px rgba(0,0,0,.08);
+
+    border-left:6px solid #FF9900;
+
+}
+
+/* Charts */
+
+div[data-testid="stPlotlyChart"],
+div[data-testid="stImage"]{
+
+    background:white;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    box-shadow:0px 2px 8px rgba(0,0,0,.08);
+
+}
