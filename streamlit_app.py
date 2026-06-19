@@ -19,9 +19,11 @@ Author : Sandhya J
 # ===============================================================
 
 import streamlit as st
+import pandas as pd
 
 from src.data_loader import load_data
 from src.feature_engineering import create_features
+from src.filters import dashboard_filters
 
 
 from src.layout import (
@@ -107,6 +109,11 @@ st.markdown("""
 with st.spinner("Loading Retail Intelligence Dashboard..."):
     df = load_data()
     df = create_features(df)
+    if "Order_Date" in df.columns:
+      df["Order_Date"] = pd.to_datetime(df["Order_Date"])
+
+# Apply filters after the data is ready
+df = dashboard_filters(df)
 
 
 # ===============================================================
