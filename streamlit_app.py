@@ -24,6 +24,7 @@ import pandas as pd
 from src.data_loader import load_data
 from src.feature_engineering import create_features
 from src.filters import dashboard_filters
+from src.ui import dashboard_summary
 
 
 from src.layout import (
@@ -66,17 +67,29 @@ from src.business_insights import (
 )
 from pathlib import Path
 
+from src.sidebar import (
+    active_filters,
+    dashboard_statistics,
+    reset_filters,
+)
+
+from src.config import (
+    APP_TITLE,
+    PAGE_ICON
+)
+
 # ===============================================================
 # Page Configuration
 # Must be the first Streamlit command
 # ===============================================================
 
 st.set_page_config(
-    page_title="Amazon Retail Intelligence",
-    page_icon="🛒",
+    page_title=APP_TITLE,
+    page_icon=PAGE_ICON,
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="expanded",
 )
+
 
 # ===============================================================
 # Load Custom CSS
@@ -96,13 +109,7 @@ def load_css():
 
 load_css()
 
-st.markdown("""
-    <style>
-    h1{
-    color:red !important;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+
 # ===============================================================
 # Load & Prepare Data
 # ===============================================================
@@ -113,7 +120,15 @@ with st.spinner("Loading Retail Intelligence Dashboard..."):
       df["Order_Date"] = pd.to_datetime(df["Order_Date"])
 
 # Apply filters after the data is ready
-df = dashboard_filters(df)
+#df = dashboard_filters(df)
+(
+    df,
+    selected_dates,
+    selected_cities,
+    selected_categories,
+    selected_products,
+    selected_customers,
+) = dashboard_filters(df)
 
 
 # ===============================================================
@@ -136,28 +151,57 @@ revenue = total_revenue(df)
 orders = total_orders(df)
 customers = total_customers(df)
 aov = average_order_value(df)
+products = df["product_name"].nunique()
+cities = df["city"].nunique()
+
+dashboard_summary(
+    revenue=revenue,
+    orders=orders,
+    customers=customers,
+    products=products,
+    cities=cities,
+    start_date=df["Order_Date"].min(),
+    end_date=df["Order_Date"].max(),
+)
 
 # ===============================================================
 # Sidebar
 # Filters will be added in Sprint 2 - Step 2
 # ===============================================================
 
-with st.sidebar:
+reset_filters()
 
-    st.title("🔍 Dashboard Filters")
+active_filters(
+    dates=selected_dates,
+    cities=selected_cities,
+    categories=selected_categories,
+    products=selected_products,
+    customers=selected_customers,
+)
 
-    st.markdown("---")
+dashboard_statistics(
+    revenue=revenue,
+    orders=orders,
+    customers=customers,
+    products=products,
+    cities=cities,
+)
+#with st.sidebar:
 
-    st.info("Interactive filters will be added in Sprint 2.")
+#    st.title("🔍 Dashboard Filters")
 
-    st.markdown("---")
+#    st.markdown("---")
 
-    st.subheader("Dashboard Status")
+#    st.info("Interactive filters will be added in Sprint 2.")
 
-    st.success("Data Loaded Successfully")
+#    st.markdown("---")
 
-    st.write(f"📦 Orders : {orders:,}")
-    st.write(f"👥 Customers : {customers:,}")
+#    st.subheader("Dashboard Status")
+
+#    st.success("Data Loaded Successfully")
+
+#    st.write(f"📦 Orders : {orders:,}")
+#    st.write(f"👥 Customers : {customers:,}")
 
 
 
@@ -165,32 +209,32 @@ with st.sidebar:
 # KPI Cards
 # ===============================================================
 
-section_header(
-    "📊 Executive Summary",
-    "Key Business Performance Indicators"
-)
+#section_header(
+#    "📊 Executive Summary",
+#    "Key Business Performance Indicators"
+#)
 
-kpi1, kpi2, kpi3, kpi4 = st.columns(4)
+#kpi1, kpi2, kpi3, kpi4 = st.columns(4)
 
-kpi1.metric(
-    "💰 Total Revenue",
-    f"₹{revenue:,.0f}"
-)
+#kpi1.metric(
+#    "💰 Total Revenue",
+#    f"₹{revenue:,.0f}"
+#)
 
-kpi2.metric(
-    "🛒 Total Orders",
-    f"{orders:,}"
-)
+#kpi2.metric(
+#    "🛒 Total Orders",
+#    f"{orders:,}"
+#)
 
-kpi3.metric(
-    "👥 Customers",
-    f"{customers:,}"
-)
+#kpi3.metric(
+#    "👥 Customers",
+#    f"{customers:,}"
+#)
 
-kpi4.metric(
-    "💳 Avg Order Value",
-    f"₹{aov:,.2f}"
-)
+#kpi4.metric(
+#    "💳 Avg Order Value",
+#    f"₹{aov:,.2f}"
+#)
 
 #st.divider()
 
