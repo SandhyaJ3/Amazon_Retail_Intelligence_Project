@@ -14,7 +14,6 @@ from matplotlib.axes import Axes
 # Dashboard Configuration
 # ==========================================================
 
-FIG_SIZE = (12, 6)
 
 TITLE_SIZE = 16
 

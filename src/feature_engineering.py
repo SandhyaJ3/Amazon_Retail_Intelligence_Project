@@ -8,6 +8,10 @@ from pathlib import Path
 import pandas as pd
 from pandas import DataFrame
 
+import streamlit as st
+
+
+
 # -------------------------------------------------------------------
 # Project Paths (kept for future use if processed files are written)
 # -------------------------------------------------------------------
@@ -21,7 +25,7 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 # -------------------------------------------------------------------
 # Feature Engineering Functions
 # -------------------------------------------------------------------
-
+@st.cache_data(show_spinner=False)
 def create_sales(df: DataFrame) -> DataFrame:
     """
     Create Sales column.
@@ -85,6 +89,7 @@ def create_customer_features(df: DataFrame) -> DataFrame:
     ).dt.days
 
     return df
+
 
 
 def create_features(df: DataFrame) -> DataFrame:

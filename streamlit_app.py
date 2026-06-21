@@ -113,7 +113,7 @@ load_css()
 # ===============================================================
 # Load & Prepare Data
 # ===============================================================
-with st.spinner("Loading Retail Intelligence Dashboard..."):
+with st.spinner("🚀 Loading Amazon Retail Intelligence Platform..."):
     df = load_data()
     df = create_features(df)
     if "Order_Date" in df.columns:
@@ -129,6 +129,20 @@ with st.spinner("Loading Retail Intelligence Dashboard..."):
     selected_products,
     selected_customers,
 ) = dashboard_filters(df)
+
+# ===============================================================
+# Empty State Handling
+# ===============================================================
+
+if df.empty:
+
+    st.warning("⚠️ No data available for the selected filters.")
+
+    st.info(
+        "Try changing one or more filters or click 'Reset Filters' in the sidebar."
+    )
+
+    st.stop()
 
 
 # ===============================================================
@@ -353,3 +367,9 @@ insights.extend(
 with st.container(border=True):
     for insight in insights:
         st.markdown(f"✅ {insight}")
+
+st.divider()
+
+st.caption(
+    "Amazon Retail Intelligence Platform | © 2026 Sandhya J | Powered by Python & Streamlit"
+)

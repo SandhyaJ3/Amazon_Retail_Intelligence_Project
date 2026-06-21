@@ -82,6 +82,9 @@ def active_filters(
     customers,
 )
 
+import streamlit as st
+from src.config import CURRENCY
+
 def dashboard_statistics(
     revenue,
     orders,
@@ -90,35 +93,31 @@ def dashboard_statistics(
     cities,
 ):
     """
-    Displays dashboard statistics.
+    Compact dashboard statistics.
     """
 
     st.sidebar.markdown("---")
     st.sidebar.subheader("📊 Dashboard Statistics")
 
-    st.sidebar.metric(
-        "💰 Revenue",
-        f"₹{revenue:,.0f}"
-    )
-
-    st.sidebar.metric(
-        "🛒 Orders",
-        f"{orders:,}"
-    )
-
-    st.sidebar.metric(
-        "👥 Customers",
-        f"{customers:,}"
+    st.sidebar.write(
+        f"💰 **Revenue** &nbsp;&nbsp;&nbsp;&nbsp; {CURRENCY}{revenue:,.0f}"
     )
 
     st.sidebar.write(
-        f"📦 Products : {products}"
+        f"🛒 **Orders** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {orders:,}"
     )
 
     st.sidebar.write(
-        f"🏙️ Cities : {cities}"
+        f"👥 **Customers** &nbsp;&nbsp; {customers:,}"
     )
 
+    st.sidebar.write(
+        f"📦 **Products** &nbsp;&nbsp;&nbsp;&nbsp; {products:,}"
+    )
+
+    st.sidebar.write(
+        f"🏙️ **Cities** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {cities:,}"
+    )
 
 
 def reset_filters():

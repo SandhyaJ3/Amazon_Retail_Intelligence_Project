@@ -161,7 +161,7 @@ def category_sales(df: DataFrame) -> DataFrame:
 ##******************* Customer Metrics ************************"""
 
 
-def customer_revenue(df: DataFrame) -> DataFrame:
+def customer_revenue(df: DataFrame, top_n: int = 10) -> DataFrame:
     """
     Revenue by Customer.
     """
@@ -170,6 +170,7 @@ def customer_revenue(df: DataFrame) -> DataFrame:
         df.groupby("customer_name", as_index=False)["Sales"]
         .sum()
         .sort_values("Sales", ascending=False)
+        .head(top_n)
     )
 
 

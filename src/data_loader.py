@@ -1,6 +1,11 @@
 from pathlib import Path
 import pandas as pd
 
+import streamlit as st
+
+
+
+
 print("===== DEBUGGING PATHS =====")
 print("__file__ =", __file__)
 
@@ -14,7 +19,7 @@ print("DATA_DIR exists?", DATA_DIR.exists())
 print("amazon file exists?", (DATA_DIR / "amazon_retail_data.csv").exists())
 print("===========================")
 
-
+@st.cache_data(show_spinner=False)
 def load_data():
     orders = pd.read_csv(DATA_DIR / "amazon_retail_data.csv")
     customers = pd.read_csv(DATA_DIR / "customers.csv")
