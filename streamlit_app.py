@@ -78,6 +78,10 @@ from src.config import (
     PAGE_ICON
 )
 
+from src.ai_assistant import (
+    executive_ai_assistant,
+)
+
 # ===============================================================
 # Page Configuration
 # Must be the first Streamlit command
@@ -372,4 +376,21 @@ st.divider()
 
 st.caption(
     "Amazon Retail Intelligence Platform | © 2026 Sandhya J | Powered by Python & Streamlit"
+)
+
+# ===============================================================
+# Executive Insights
+# ===============================================================
+
+section_header(
+    "🤖 Executive AI Copilot",
+    "Ask questions about your dashboard"
+)
+
+executive_ai_assistant(
+    revenue=revenue,
+    orders=orders,
+    customers=customers,
+    products=products,
+    cities=cities,
 )
