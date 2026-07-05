@@ -35,9 +35,11 @@ DASHBOARD_TITLE = "📋 Executive Dashboard Summary"
 # ==========================================================
 # Gemini Configuration
 # ==========================================================
-
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
+#GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 #OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+
+OPENROUTER_MODEL = "openai/gpt-4o"
 
 # ==========================================================
 # Filter Keys
@@ -56,3 +58,8 @@ FILTER_KEYS = [
 # ==========================================================
 
 FILTER_DEFAULTS = {}
+
+print("=" * 50)
+print("OPENROUTER_API_KEY =", OPENROUTER_API_KEY)
+print("OPENROUTER_MODEL =", OPENROUTER_MODEL)
+print("=" * 50)

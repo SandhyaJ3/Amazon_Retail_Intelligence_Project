@@ -15,16 +15,22 @@ Author : Sandhya J
 # Imports
 # =========================================================
 
-from google import genai
+#from google import genai
 
-from src.config import GEMINI_API_KEY
+#from src.config import GEMINI_API_KEY
+from openai import OpenAI
+from src.config import OPENROUTER_API_KEY, OPENROUTER_MODEL
 
 # =========================================================
-# Create Gemini Client
+# Create Open router  Client
 # =========================================================
-print(GEMINI_API_KEY)
-client = genai.Client(
-    api_key=GEMINI_API_KEY
+
+
+
+
+client = OpenAI(
+    api_key=OPENROUTER_API_KEY,
+    base_url="https://openrouter.ai/api/v1",
 )
 
 
@@ -34,28 +40,39 @@ client = genai.Client(
 
 def ask_llm(prompt: str) -> str:
     """
-    Sends the prompt to Gemini and returns
-    the generated business response.
-
-    Parameters
-    ----------
-    prompt : str
-        Complete prompt created in prompts.py
-
-    Returns
-    -------
-    str
-        AI generated response
+    Sends the prompt to OpenRouter and returns
+    the AI generated response.
     """
 
     try:
 
-        response = client.models.generate_content(
-            model="gemini-2.0-flash-lite",
-            contents=prompt,
+        response = client.chat.completions.create(
+
+            # Model configured in config.py
+            model=OPENROUTER_MODEL,
+
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "You are an Executive Business Analyst "
+                        "specialized in retail analytics."
+                    )
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+
+            # Lower temperature = more factual responses
+            temperature=0.3,
+
+            # Maximum response length
+            max_tokens=700,
         )
 
-        return response.text
+        return response.choices[0].message.content
 
     except Exception as e:
 
